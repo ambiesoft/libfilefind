@@ -6,23 +6,20 @@ using namespace std;
 using namespace Ambiesoft::Logic;
 
 
-Libfilefind::Libfilefind()
-{
-}
 
 enum EFIND_ERROR {
     EFIND_NOERROR = 0,
-    NULL_COMMAND = -1,
-    EMPTY_COMMAND = -2,
+    NULL_DIR = -1,
+    EMPTY_DIR = -2,
 };
 
-int efind(const char* command,
-          EFfGetNext ufGetNext)
+LIBFILEFINDSHARED_EXPORT int efind(const char* dir,
+                                   EFCommandHandle handle)
 {
-    if(command==nullptr)
+    if(dir==nullptr)
         return NULL_DIR;
 
-    if(command[0] == '\0')
+    if(dir[0] == '\0')
         return EMPTY_DIR;
 
 

@@ -7,6 +7,5 @@ using namespace std;
 
 int main()
 {
-
-    efind(nullptr);
+    efind(nullptr, nullptr);
 }
