@@ -5,21 +5,19 @@
 #include <QDebug>
 #include <QFileInfo>
 
-#include "libfilefind.h"
+#include "../../../lsMisc/stdosd/OpParser.h"
 
-#include "../../../lsMisc/OpParser.h"
+#include "libfilefind.h"
+#include "parser.h"
+#include "dirwalk.h"
+
 
 using namespace std;
 using namespace Ambiesoft::Logic;
 
 
 
-enum EFIND_ERROR {
-    LFERROR_NOERROR = 0,
-    LFERROR_NULL_DIR = -1,
-    LFERROR_EMPTY_DIR = -2,
-    LFERROR_NOOPENTITYKIND = -3,
-};
+
 
 bool lfEvaluator(const LFPRED_ENTITY& entity, const QFileInfo& fi)
 {
@@ -42,7 +40,8 @@ LIBFILEFINDSHARED_EXPORT int efind(
         LFOP_ENTITY* pEntity,
         fnOnHit onHit)
 {
-    OpParser<LFPRED_ENTITY, QFileInfo> opParser(lfEvaluator);
+    Q_UNUSED(pOption);
+    LF_OPPARSER opParser(lfEvaluator);
 
     for(int i=0 ; i < nOpCount; ++i,++pEntity)
     {
@@ -77,20 +76,7 @@ LIBFILEFINDSHARED_EXPORT int efind(
             return LFERROR_EMPTY_DIR;
 
         // TODO: to function
-        QDir qdir(dir);
-        QDirIterator it(dir,
-                        QStringList() << "*.*",
-                        QDir::AllEntries | QDir::NoDotAndDotDot,
-                        QDirIterator::Subdirectories);
-        while (it.hasNext())
-        {
-            it.next();
-            // qDebug() << it.fileInfo();
-            if(opParser.Evaluate(it.fileInfo()))
-            {
-                onHit(it.fileName().toStdString().c_str());
-            }
-        }
+        walkDir(opParser, dir, onHit);
     }
 
 

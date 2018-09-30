@@ -3,6 +3,12 @@
 
 #include "libfilefind_global.h"
 
+enum EFIND_ERROR {
+    LFERROR_NOERROR = 0,
+    LFERROR_NULL_DIR = -1,
+    LFERROR_EMPTY_DIR = -2,
+    LFERROR_NOOPENTITYKIND = -3,
+};
 
 struct LF_GLOBAL_OPTION {
 

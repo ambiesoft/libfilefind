@@ -23,13 +23,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-		libfilefind.cpp
+		libfilefind.cpp \
+    dirwalk.cpp \
+    parser.cpp
 
 
 HEADERS += \
         libfilefind.h \
         libfilefind_global.h \ 
-    ../../../lsMisc/OpParser.h
+    ../../../lsMisc/stdosd/OpParser.h \
+    dirwalk.h \
+    parser.h
 
 unix {
     target.path = /usr/lib
