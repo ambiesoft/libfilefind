@@ -14,7 +14,7 @@ struct LF_GLOBAL_OPTION {
 
 };
 
-enum LP_OP_KIND {
+enum LFOP_KIND {
     LFOP_UNDEF,
 
     LFOP_BEGINPAREN,
@@ -28,22 +28,34 @@ enum LP_OP_KIND {
 
 enum LFPRED_KIND {
     LFPRED_UNDEF,
-    LFPRED_SIZE,
+
+    LFPRED_MINSIZE,
+    LFPRED_MAXSIZE,
+
+    LPFRED_NAME,
+
+    LFPRED_MINMTIME,
+    LFPRED_MAXMTIME,
+
 };
 
 struct LFPRED_ENTITY {
-    LFPRED_KIND predkind_;
+    int cbsize;
+    LFPRED_KIND predkind;
     union {
-        int* size_;
-        char* name_;
-        char* content_;
-        int* mtime_;
-    } preddata_;
+        int* minsize;
+        int* maxsize;
+        char* name;
+        char* content;
+        int* minmtime;
+        int* maxmtime;
+    } preddata;
 };
 
 struct LFOP_ENTITY {
-    LP_OP_KIND kind_;
-    LFPRED_ENTITY* pPred_;
+    int cbsize;
+    LFOP_KIND kind;
+    LFPRED_ENTITY* pPred;
 };
 
 typedef void (*fnOnHit)(const char* file);

@@ -21,14 +21,29 @@ using namespace Ambiesoft::Logic;
 
 bool lfEvaluator(const LFPRED_ENTITY& entity, const QFileInfo& fi)
 {
-    switch(entity.predkind_)
+    switch(entity.predkind)
     {
     case LFPRED_UNDEF:
         return false;
-    case LFPRED_SIZE:
+    case LFPRED_MINSIZE:
         // qDebug() << QString("Entity=%1,FI=%2,'%3'").arg(*entity.preddata_.size_).arg(fi.size()).arg(fi.filePath());
-        if( *entity.preddata_.size_ < fi.size() )
+        if( *entity.preddata.minsize < fi.size() )
             return true;
+        break;
+    case LFPRED_MAXSIZE:
+        // qDebug() << QString("Entity=%1,FI=%2,'%3'").arg(*entity.preddata_.size_).arg(fi.size()).arg(fi.filePath());
+        if( *entity.preddata.maxsize >= fi.size() )
+            return true;
+        break;
+
+    case LPFRED_NAME:
+        // TODO: search name
+        break;
+
+    case LFPRED_MINMTIME:
+        break;
+    case LFPRED_MAXMTIME:
+        break;
     }
     return false;
 }
@@ -45,7 +60,7 @@ LIBFILEFINDSHARED_EXPORT int efind(
 
     for(int i=0 ; i < nOpCount; ++i,++pEntity)
     {
-        switch(pEntity->kind_)
+        switch(pEntity->kind)
         {
         case LFOP_BEGINPAREN:
             opParser.AddBeginningParenthesis();
@@ -60,7 +75,7 @@ LIBFILEFINDSHARED_EXPORT int efind(
             opParser.AddOr();
             break;
         case LFOP_PRED:
-            opParser.AddPredicator(*pEntity->pPred_);
+            opParser.AddPredicator(*pEntity->pPred);
             break;
         default:
             return LFERROR_NOOPENTITYKIND;
