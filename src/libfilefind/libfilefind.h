@@ -3,6 +3,9 @@
 
 #include "libfilefind_global.h"
 
+extern "C" {
+
+
 enum EFIND_ERROR {
     LFERROR_NOERROR = 0,
     LFERROR_NULL_DIR = -1,
@@ -43,12 +46,12 @@ struct LFPRED_ENTITY {
     int cbsize;
     LFPRED_KIND predkind;
     union {
-        int* minsize;
-        int* maxsize;
+        unsigned long long* minsize;
+        unsigned long long* maxsize;
         char* name;
         char* content;
-        int* minmtime;
-        int* maxmtime;
+        unsigned long long* minmtime;
+        unsigned long long* maxmtime;
     } preddata;
 };
 
@@ -67,7 +70,7 @@ LIBFILEFINDSHARED_EXPORT int efind(
         LFOP_ENTITY* ppEntity,
         fnOnHit onHit);
 
-
+} // extern "C"
 
 
 #endif // LIBFILEFIND_H

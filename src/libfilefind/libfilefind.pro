@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+QT       -= core gui
 
 TARGET = libfilefind
 TEMPLATE = lib
@@ -25,7 +25,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
 		libfilefind.cpp \
     dirwalk.cpp \
-    parser.cpp
+    parser.cpp \
+    ../../../lsMisc/stdosd/stdosd.cpp \
+    ../../../lsMisc/stdosd/stdosd_win.cpp
 
 
 HEADERS += \
@@ -33,7 +35,8 @@ HEADERS += \
         libfilefind_global.h \ 
     ../../../lsMisc/stdosd/OpParser.h \
     dirwalk.h \
-    parser.h
+    parser.h \
+    ../../../lsMisc/stdosd/stdosd.h
 
 unix {
     target.path = /usr/lib

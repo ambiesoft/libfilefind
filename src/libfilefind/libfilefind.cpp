@@ -1,9 +1,4 @@
 
-#include <QVariant>
-#include <QDir>
-#include <QDirIterator>
-#include <QDebug>
-#include <QFileInfo>
 
 #include "../../../lsMisc/stdosd/OpParser.h"
 
@@ -14,12 +9,13 @@
 
 using namespace std;
 using namespace Ambiesoft::Logic;
+using namespace Ambiesoft::stdosd;
 
 
 
 
 
-bool lfEvaluator(const LFPRED_ENTITY& entity, const QFileInfo& fi)
+bool lfEvaluator(const LFPRED_ENTITY& entity, const FileInfo& fi)
 {
     switch(entity.predkind)
     {
@@ -37,7 +33,8 @@ bool lfEvaluator(const LFPRED_ENTITY& entity, const QFileInfo& fi)
         break;
 
     case LPFRED_NAME:
-        // TODO: search name
+        if(fi.name().find(entity.preddata.name) != string::npos)
+            return true;
         break;
 
     case LFPRED_MINMTIME:
@@ -48,14 +45,13 @@ bool lfEvaluator(const LFPRED_ENTITY& entity, const QFileInfo& fi)
     return false;
 }
 LIBFILEFINDSHARED_EXPORT int efind(
-        LF_GLOBAL_OPTION* pOption,
+        LF_GLOBAL_OPTION* /* pOption */,
         int nDirCount,
         const char** dirs,
         int nOpCount,
         LFOP_ENTITY* pEntity,
         fnOnHit onHit)
 {
-    Q_UNUSED(pOption);
     LF_OPPARSER opParser(lfEvaluator);
 
     for(int i=0 ; i < nOpCount; ++i,++pEntity)
